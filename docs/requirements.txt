@@ -1,8 +1,14 @@
 -r ../requirements.txt
+sphinx_rtd_theme>=0.3.1
+sphinx>=2.0.1
+sphinx-autodoc-typehints
+typing_extensions; python_version < '3.8'
 nbclean>=0.3.2
 nbsphinx>=0.7.0
 pygments >= 2.4.1
-sphinx>=2.0.1
-sphinx-autodoc-typehints
-sphinx_rtd_theme>=0.3.1
-typing_extensions; python_version < '3.8'
+sphinx_gallery
+nbformat==4.4.0
+jupyter_sphinx==0.1.4
+ipywebrtc
+ipywidgets>=7.4.0
+ipyvolume==0.6.0a1
