@@ -22,3 +22,4 @@ Tutorials
    :caption: Visualization functions:
 
    examples/ST_deconvolution_visualization
+   examples/Interactive_plot
