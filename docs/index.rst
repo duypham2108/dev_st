@@ -20,7 +20,7 @@ stLearn-interactive tutorial: `Wiki page <https://github.com/BiomedicalMachineLe
    :caption: Content:
 
    installation
-   examples
+   tutorials
    api
    authors
    history

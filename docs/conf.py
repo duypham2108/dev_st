@@ -184,16 +184,17 @@ texinfo_documents = [
 
 
 nbsphinx_thumbnails = {
-   'examples/stSME_clustering': '_static/img/thumbnail/sme.png',
-   'examples/stSME_comparison': '_static/img/thumbnail/com.png',
-   'examples/Pseudo-time-space-tutorial': '_static/img/thumbnail/psts.png',
-   'examples/stLearn-CCI': '_static/img/thumbnail/cci.png',
-   'examples/Read_MERFISH': '_static/img/thumbnail/mer.png',
-   'examples/Read_seqfish': '_static/img/thumbnail/seq.png',
-   'examples/Working-with-Old-Spatial-Transcriptomics-data': '_static/img/thumbnail/legacy.png',
-   'examples/Read_slideseq': '_static/img/thumbnail/slide.png',
-   'examples/ST_deconvolution_visualization': '_static/img/thumbnail/decon.png',
-   'examples/Interactive_plot': '_static/img/thumbnail/bokeh.gif'
+   'tutorials/stSME_clustering': '_static/img/thumbnail/sme.png',
+   'tutorials/stSME_comparison': '_static/img/thumbnail/com.png',
+   'tutorials/Pseudo-time-space-tutorial': '_static/img/thumbnail/psts.png',
+   'tutorials/stLearn-CCI': '_static/img/thumbnail/cci.png',
+   'tutorials/Read_MERFISH': '_static/img/thumbnail/mer.png',
+   'tutorials/Read_seqfish': '_static/img/thumbnail/seq.png',
+   'tutorials/Working-with-Old-Spatial-Transcriptomics-data': '_static/img/thumbnail/legacy.png',
+   'tutorials/Read_slideseq': '_static/img/thumbnail/slide.png',
+   'tutorials/ST_deconvolution_visualization': '_static/img/thumbnail/decon.png',
+   'tutorials/Interactive_plot': '_static/img/thumbnail/bokeh.gif',
+   'tutorials/Working_with_scanpy': '_static/img/thumbnail/scanpy.png'
 }
 
 
