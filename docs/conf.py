@@ -193,6 +193,7 @@ nbsphinx_thumbnails = {
    'examples/Working-with-Old-Spatial-Transcriptomics-data': '_static/img/thumbnail/legacy.png',
    'examples/Read_slideseq': '_static/img/thumbnail/slide.png',
    'examples/ST_deconvolution_visualization': '_static/img/thumbnail/decon.png',
+   'examples/Interactive_plot': '_static/img/thumbnail/bokeh.gif'
 }
 
 
