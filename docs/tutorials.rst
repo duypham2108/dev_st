@@ -21,6 +21,7 @@ Tutorials
 .. nbgallery::
    :caption: Visualization functions:
 
+   tutorials/Core_plots
    tutorials/ST_deconvolution_visualization
    tutorials/Interactive_plot
 
