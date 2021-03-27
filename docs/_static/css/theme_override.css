@@ -1,0 +1,13 @@
+.sphx-glr-thumbcontainer {
+    border-color: #E8E3E3 !important;
+}
+
+.rst-content div.figure p.caption {
+    font-style: inherit !important;
+}
+
+h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
+    margin-top: 32px;
+    font-weight: 700;
+    font-family: "Roboto Slab","ff-tisa-web-pro","Georgia",Arial,sans-serif;
+}

@@ -26,10 +26,10 @@ import stlearn
 # Setup files
 import os
 
-if not os.path.isdir("./_static"):
-  url = "https://www.dropbox.com/s/7ij7e3bn0jld7to/downloads.zip"
-  os.system("wget " + url)
-  os.system("unzip downloads.zip")
+# if not os.path.isdir("./_static"):
+#   url = "https://www.dropbox.com/s/d5dz5b63gpoquu2/downloads.zip"
+#   os.system("wget " + url)
+#   os.system("unzip downloads.zip")
 
 # -- General configuration ---------------------------------------------
 
