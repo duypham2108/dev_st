@@ -1,5 +1,5 @@
 Tutorials
-========
+===========================
 
 .. nbgallery::
    :caption: Main features:
@@ -9,9 +9,17 @@ Tutorials
    tutorials/Pseudo-time-space-tutorial
    tutorials/stLearn-CCI
 
+.. nbgallery::
+   :caption: Visualisation and additional functionalities:
+   
+   tutorials/Interactive_plot
+   tutorials/Core_plots
+   tutorials/ST_deconvolution_visualization
+   
 
 .. nbgallery::
    :caption: Supporting platform:
+   
 
    tutorials/Read_MERFISH
    tutorials/Read_seqfish
@@ -19,13 +27,7 @@ Tutorials
    tutorials/Read_slideseq
 
 .. nbgallery::
-   :caption: Visualization functions:
+   :caption: Integration with other spatial tools:
 
-   tutorials/Core_plots
-   tutorials/ST_deconvolution_visualization
-   tutorials/Interactive_plot
-
-.. nbgallery::
-   :caption: Integration:
-
+   tutorials/Read_any_data
    tutorials/Working_with_scanpy

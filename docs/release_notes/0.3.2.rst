@@ -1,0 +1,15 @@
+0.3.2 `2021-03-28`
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. rubric:: Feature
+
+- Add interactive plotting functions: :func:`~stlearn.pl.gene_plot_interactive`, :func:`~stlearn.pl.cluster_plot_interactive`, :func:`~stlearn.pl.het_plot_interactive`
+- Add basic unittest (will add more in the future).
+
+.. rubric:: Bug fixes
+
+- Refactor :func:`~stlearn.pl.gene_plot`
+- Refactor :func:`~stlearn.pl.cluster_plot`
+- Refactor :func:`~stlearn.pl.het_plot`
+- Fixed issue with `networkx` object cannot write `h5ad` file.
+

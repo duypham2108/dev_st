@@ -25,6 +25,7 @@ Wrapper functions: `wrapper`
    ReadMERFISH
    ReadSeqFish
    convert_scanpy
+   create_stlearn
 
 
 Add: `add`

@@ -195,7 +195,8 @@ nbsphinx_thumbnails = {
    'tutorials/ST_deconvolution_visualization': '_static/img/thumbnail/decon.png',
    'tutorials/Interactive_plot': '_static/img/thumbnail/bokeh.gif',
    'tutorials/Working_with_scanpy': '_static/img/thumbnail/scanpy.png',
-   'tutorials/Core_plots': '_static/img/thumbnail/core_plots.png'
+   'tutorials/Core_plots': '_static/img/thumbnail/core_plots.png',
+   'tutorials/Read_any_data': '_static/img/thumbnail/any.png'
 }
 
 
