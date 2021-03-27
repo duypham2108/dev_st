@@ -24,7 +24,7 @@ References
    *UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction*,
    `arXiv <https://arxiv.org/abs/1802.03426>`__.
 
-.. [Weinreb17] Weinreb *et al.* (2016),
+.. [Weinreb16] Weinreb *et al.* (2016),
    *SPRING: a kinetic interface for visualizing high dimensional single-cell expression data*,
    `bioRxiv <https://doi.org/10.1101/090332>`__.
 

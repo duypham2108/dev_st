@@ -2,6 +2,9 @@
 
 stLearn - a downstream analysis toolkit for Spatial Transcriptomics data
 ============================================================================
+
+|PyPI| |PyPIDownloads| |Docs|
+
 .. |PyPI| image:: https://img.shields.io/pypi/v/stlearn?logo=PyPI
    :target: https://pypi.org/project/stlearn
 .. |PyPIDownloads| image:: https://pepy.tech/badge/stlearn
