@@ -23,6 +23,12 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import stlearn
 
+# Setup files
+import os
+url = "https://www.dropbox.com/s/7ij7e3bn0jld7to/downloads.zip"
+os.system("wget  + " url)
+os.system("unzip downloads.zip")
+
 # -- General configuration ---------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -206,15 +212,13 @@ nbsphinx_thumbnails = {
 #for filename in glob.glob('../tutorials/*.ipynb', recursive=True):
 #    Path(filename).rename(filename.split("/")[-1])
 
-# import os
 
 # with open("./list_tutorial.txt") as f:
 #     content = f.readlines()
 
 # content = [x.strip() for x in content] 
 
-# for url in content:
-#     os.system("wget --directory-prefix=examples" + url)
+
 
 
 

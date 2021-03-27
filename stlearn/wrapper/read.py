@@ -13,7 +13,6 @@ import scipy
 
 _QUALITY = Literal["fulres", "hires", "lowres"]
 
-
 def Read10X(
     path: Union[str, Path],
     genome: Optional[str] = None,
