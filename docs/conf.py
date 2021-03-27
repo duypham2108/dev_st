@@ -21,8 +21,16 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../stlearn/spatials'))
+sys.path.insert(0, os.path.abspath('../stlearn/spatials/clustering'))
+sys.path.insert(0, os.path.abspath('../stlearn/spatials/morphology'))
+sys.path.insert(0, os.path.abspath('../stlearn/spatials/SME'))
+sys.path.insert(0, os.path.abspath('../stlearn/spatials/trajectory'))
 sys.path.insert(0, os.path.abspath('../stlearn/tools'))
+sys.path.insert(0, os.path.abspath('../stlearn/tools/clustering'))
+sys.path.insert(0, os.path.abspath('../stlearn/tools/microenv'))
+sys.path.insert(0, os.path.abspath('../stlearn/tools/cci'))
 sys.path.insert(0, os.path.abspath('../stlearn/plotting'))
+sys.path.insert(0, os.path.abspath('../stlearn/plotting/trajectory'))
 import stlearn
 
 # Setup files
