@@ -92,6 +92,7 @@ Spatial: `spatial`
 
 .. autosummary::
    :toctree: .
+
    spatial.clustering.localization
 
 .. module:: stlearn.spatial.trajectory
@@ -99,6 +100,7 @@ Spatial: `spatial`
 
 .. autosummary::
    :toctree: .
+
    spatial.trajectory.pseudotime
    spatial.trajectory.pseudotimespace_global
    spatial.trajectory.pseudotimespace_local
@@ -106,15 +108,20 @@ Spatial: `spatial`
    spatial.trajectory.detect_transition_markers_clades
    spatial.trajectory.detect_transition_markers_branches
 
-.. module:: stlearn.spatial.trajectory
+.. module:: stlearn.spatial.morphology
 .. currentmodule:: stlearn
 
 .. autosummary::
    :toctree: .
+
    spatial.morphology.adjust
 
-.. module:: stlearn.spatial.trajectory
+.. module:: stlearn.spatial.SME
 .. currentmodule:: stlearn
+
+.. autosummary::
+   :toctree: .
+
    spatial.SME.SME_impute0
    spatial.SME.pseudo_spot
    spatial.SME.SME_normalize
@@ -122,7 +129,7 @@ Spatial: `spatial`
 Tools: `tl`
 -------------------
 
-.. module:: stlearn.tl
+.. module:: stlearn.tl.clustering
 .. currentmodule:: stlearn
 
 .. autosummary::
@@ -130,6 +137,14 @@ Tools: `tl`
 
    tl.clustering.kmeans
    tl.clustering.louvain
+
+
+.. module:: stlearn.tl.cci
+.. currentmodule:: stlearn
+
+.. autosummary::
+   :toctree: .
+
    tl.cci.lr
    tl.cci.het.count
    tl.cci.het.create_grids
@@ -160,6 +175,13 @@ Plot: `pl`
    pl.het_plot_interactive
    pl.grid_plot
    pl.plot_mask
+
+.. module:: stlearn.pl.trajectory
+.. currentmodule:: stlearn
+
+.. autosummary::
+   :toctree: .
+
    pl.trajectory.pseudotime_plot
    pl.trajectory.local_plot
    pl.trajectory.tree_plot
