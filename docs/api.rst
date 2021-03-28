@@ -87,20 +87,34 @@ Embedding: `em`
 Spatial: `spatial`
 -------------------
 
-.. module:: stlearn.spatial
+.. module:: stlearn.spatial.clustering
 .. currentmodule:: stlearn
 
 .. autosummary::
    :toctree: .
-
    spatial.clustering.localization
+
+.. module:: stlearn.spatial.trajectory
+.. currentmodule:: stlearn
+
+.. autosummary::
+   :toctree: .
    spatial.trajectory.pseudotime
    spatial.trajectory.pseudotimespace_global
    spatial.trajectory.pseudotimespace_local
    spatial.trajectory.compare_transitions
    spatial.trajectory.detect_transition_markers_clades
    spatial.trajectory.detect_transition_markers_branches
+
+.. module:: stlearn.spatial.trajectory
+.. currentmodule:: stlearn
+
+.. autosummary::
+   :toctree: .
    spatial.morphology.adjust
+
+.. module:: stlearn.spatial.trajectory
+.. currentmodule:: stlearn
    spatial.SME.SME_impute0
    spatial.SME.pseudo_spot
    spatial.SME.SME_normalize
