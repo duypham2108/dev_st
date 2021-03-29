@@ -26,7 +26,7 @@ import stlearn
 import os
 
 # if not os.path.isdir("./_static"):
-#   url = "https://www.dropbox.com/s/d5dz5b63gpoquu2/downloads.zip"
+#   url = "https://www.dropbox.com/s/mky2cp1ksjc4bes/downloads.zip"
 #   os.system("wget " + url)
 #   os.system("unzip downloads.zip")
 

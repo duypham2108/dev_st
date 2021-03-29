@@ -66,3 +66,12 @@ def check_sublist(full, sub):
         else:
             index_bool.append(False)
     return index_bool
+
+def _read_graph(adata: AnnData, graph_type: Optional[str]):
+
+    graph = nx.from_scipy_sparse_matrix(adata.uns[graph_type]["graph"])
+    node_dict = adata.uns[graph_type]["node_dict"]
+
+    relabel_graph = nx.relabel_nodes(graph, node_dict)
+
+    return relabel_graph
