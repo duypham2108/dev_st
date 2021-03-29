@@ -1,10 +1,12 @@
-0.3.2 `2021-03-28`
+0.3.2 `2021-03-29`
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. rubric:: Feature
 
 - Add interactive plotting functions: :func:`~stlearn.pl.gene_plot_interactive`, :func:`~stlearn.pl.cluster_plot_interactive`, :func:`~stlearn.pl.het_plot_interactive`
 - Add basic unittest (will add more in the future).
+- Add `'contour'` parameter to use contour plot in :func:`~stlearn.pl.gene_plot` and :func:`~stlearn.pl.het_plot`.
+- Add :func:`~stlearn.convert_scanpy` to convert object from scanpy to stLearn.
 
 .. rubric:: Bug fixes
 

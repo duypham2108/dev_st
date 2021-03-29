@@ -18,7 +18,7 @@ Tutorials
    
 
 .. nbgallery::
-   :caption: Supporting platform:
+   :caption: Supporting platforms:
    
 
    tutorials/Read_MERFISH
