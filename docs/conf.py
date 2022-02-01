@@ -203,7 +203,8 @@ nbsphinx_thumbnails = {
    'tutorials/Interactive_plot': '_static/img/thumbnail/bokeh.gif',
    'tutorials/Working_with_scanpy': '_static/img/thumbnail/scanpy.png',
    'tutorials/Core_plots': '_static/img/thumbnail/core_plots.png',
-   'tutorials/Read_any_data': '_static/img/thumbnail/any.png'
+   'tutorials/Read_any_data': '_static/img/thumbnail/any.png',
+    'tutorials/Integration_multiple_datasets': '_static/img/thumbnail/integrate.png'
 }
 
 
