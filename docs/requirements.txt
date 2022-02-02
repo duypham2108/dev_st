@@ -10,6 +10,6 @@ sphinx_gallery
 nbformat==4.4.0
 jupyter_sphinx==0.1.4
 ipywebrtc
-ipywidgets>=7.4.0
-ipyvolume==0.6.0a1
-pip==21.2.2
+ipywidgets
+ipyvolume
+recommonmark
