@@ -1,3 +1,4 @@
+pip==21.2.2
 -r ../requirements.txt
 sphinx_rtd_theme>=0.3.1
 sphinx==3.0.0
