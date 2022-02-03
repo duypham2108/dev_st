@@ -21,3 +21,7 @@ stlearn/tools/microenv/cci/__pycache__/
 stlearn/wrapper/__pycache__/
 docs/tutorials/.ipynb_checkpoints/
 docs/tutorials/data/
+stlearn/_datasets/__pycache__/__init__.cpython-38.pyc
+stlearn/_datasets/__pycache__/_datasets.cpython-38.pyc
+stlearn/tools/label/__pycache__/__init__.cpython-38.pyc
+stlearn/tools/label/__pycache__/label.cpython-38.pyc
