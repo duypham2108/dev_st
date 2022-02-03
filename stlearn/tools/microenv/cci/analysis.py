@@ -186,13 +186,14 @@ def run(
     n_cpus: int = None,
     verbose: bool = True,
 ):
-    """Wrapper function for performing CCI analysis, varrying the analysis based on the inputted data / state of the anndata object.
+    """Wrapper function for performing CCI analysis, varrying the analysis based on the inputted data, state of the anndata object.
+    
     Parameters
-    ----------
+    -----------
     adata: AnnData          The data object including the cell types to count.
-    lrs:    np.array        The LR pairs to score/test for enrichment (in format 'L1_R1')
+    lrs: np.array        The LR pairs to score/test for enrichment (in format 'L1_R1')
     use_label: str          The cell type results to use in counting.
-    use_het:                The storage place for cell heterogeneity results in adata.obsm.
+    use_het: bool                The storage place for cell heterogeneity results in adata.obsm.
     distance: int           Distance to determine the neighbours (default is the nearest neighbour), distance=0 means within spot
     n_pairs: int            Number of random pairs to generate when performing the background distribution.
     adj_method: str         Parsed to statsmodels.stats.multitest.multipletests for multiple hypothesis testing correction.
@@ -205,7 +206,7 @@ def run(
     n_cpus: int             The number of cpus to use for multi-threading; by default will use all available.
     verbose: bool           True if print dialogue to user during run-time.
     Returns
-    -------
+    --------
     adata: AnnData          Relevant information stored: adata.uns['het'], adata.uns['lr_summary'], & data.uns['per_lr_results'].
     """
     # Setting threads for paralellisation #
