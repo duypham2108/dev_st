@@ -12,14 +12,16 @@ from typing import Tuple  # Classes
 from anndata import AnnData
 import warnings
 
-from .classes import ClusterPlot
-from .classes_bokeh import BokehClusterPlot
-from ..utils import _AxesSubplot, Axes
+from stlearn.plotting.classes import ClusterPlot
+from stlearn.plotting.classes_bokeh import BokehClusterPlot
+from stlearn.plotting._docs import doc_spatial_base_plot, doc_cluster_plot
+from stlearn.utils import _AxesSubplot, Axes, _docs_params
 
 from bokeh.io import push_notebook, output_notebook
 from bokeh.plotting import show
 
 
+@_docs_params(spatial_base_plot=doc_spatial_base_plot, cluster_plot=doc_cluster_plot)
 def cluster_plot(
     adata: AnnData,
     # plotting param
@@ -28,7 +30,8 @@ def cluster_plot(
     cmap: Optional[str] = "default",
     use_label: Optional[str] = None,
     list_clusters: Optional[list] = None,
-    ax: Optional[_AxesSubplot] = None,
+    ax: Optional[matplotlib.axes._subplots.Axes] = None,
+    fig: Optional[matplotlib.figure.Figure] = None,
     show_plot: Optional[bool] = True,
     show_axis: Optional[bool] = False,
     show_image: Optional[bool] = True,
@@ -52,6 +55,26 @@ def cluster_plot(
     bbox_to_anchor: Optional[Tuple[float, float]] = (1, 1),
 ) -> Optional[AnnData]:
 
+    """\
+    Allows the visualization of a clustering results as the discretes values
+    of dot points in the Spatial transcriptomics array. We also support to
+    visualize the spatial trajectory results
+
+
+    Parameters
+    -------------------------------------
+    {spatial_base_plot}
+    {cluster_plot}
+
+    Examples
+    -------------------------------------
+    >>> import stlearn as st
+    >>> adata = st.datasets.example_bcba()
+    >>> label = "louvain"
+    >>> st.pl.cluster_plot(adata, use_label = label, show_trajectories = True)
+
+    """
+
     assert use_label != None, "Please select `use_label` parameter"
 
     ClusterPlot(
@@ -62,6 +85,7 @@ def cluster_plot(
         use_label=use_label,
         list_clusters=list_clusters,
         ax=ax,
+        fig=fig,
         show_plot=show_plot,
         show_axis=show_axis,
         show_image=show_image,
@@ -87,13 +111,8 @@ def cluster_plot(
 
 def cluster_plot_interactive(
     adata: AnnData,
-    use_label: Optional[str] = None,
 ):
-    assert (
-        use_label + "_colors" in adata.uns.keys()
-    ), "Please run the `stlearn.pl.cluster_plot` to initialize the colors!"
-    assert use_label != None, "Please select `use_label` parameter"
 
-    bokeh_object = BokehClusterPlot(adata, use_label)
+    bokeh_object = BokehClusterPlot(adata)
     output_notebook()
     show(bokeh_object.app, notebook_handle=True)

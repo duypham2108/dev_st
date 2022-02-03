@@ -10,6 +10,8 @@ from typing import Optional, Union, Mapping  # Special
 from typing import Sequence, Iterable  # ABCs
 from typing import Tuple  # Classes
 
+from textwrap import dedent
+
 from enum import Enum
 
 
@@ -96,7 +98,7 @@ def _check_img(
     """
     if img is None and spatial_data is not None and img_key is _empty:
         img_key = next(
-            (k for k in ["hires", "lowres"] if k in spatial_data["images"]),
+            (k for k in ["hires", "lowres", "fulres"] if k in spatial_data["images"]),
         )  # Throws StopIteration Error if keys not present
     if img is None and spatial_data is not None and img_key is not None:
         img = spatial_data["images"][img_key]
@@ -115,12 +117,31 @@ def _check_coords(
 
     return [imagecol, imagerow]
 
+
 def _read_graph(adata: AnnData, graph_type: Optional[str]):
 
-    graph = nx.from_scipy_sparse_matrix(adata.uns[graph_type]["graph"])
+    if graph_type == "PTS_graph":
+        graph = nx.from_scipy_sparse_matrix(
+            adata.uns[graph_type]["graph"], create_using=nx.DiGraph
+        )
+    else:
+        graph = nx.from_scipy_sparse_matrix(adata.uns[graph_type]["graph"])
     node_dict = adata.uns[graph_type]["node_dict"]
+    node_dict = {int(k): int(v) for k, v in node_dict.items()}
 
     relabel_graph = nx.relabel_nodes(graph, node_dict)
 
     return relabel_graph
 
+
+def _docs_params(**kwds):
+    """\
+    Docstrings should start with "\" in the first line for proper formatting.
+    """
+
+    def dec(obj):
+        obj.__orig_doc__ = obj.__doc__
+        obj.__doc__ = dedent(obj.__doc__).format_map(kwds)
+        return obj
+
+    return dec

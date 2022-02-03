@@ -10,8 +10,11 @@ import stlearn
 from .._compat import Literal
 import scanpy
 import scipy
+import matplotlib.pyplot as plt
 
 _QUALITY = Literal["fulres", "hires", "lowres"]
+_background = ["black", "white"]
+
 
 def Read10X(
     path: Union[str, Path],
@@ -20,6 +23,7 @@ def Read10X(
     library_id: str = None,
     load_images: Optional[bool] = True,
     quality: _QUALITY = "hires",
+    image_path: Union[str, Path] = None,
 ) -> AnnData:
 
     """\
@@ -47,6 +51,8 @@ def Read10X(
         Load image or not.
     quality
         Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
+    image_path
+        Path to image. Only need when loading full resolution image.
 
 
     Returns
@@ -91,6 +97,8 @@ def Read10X(
 
     if quality == "fulres":
         image_coor = adata.obsm["spatial"]
+        img = plt.imread(image_path, 0)
+        adata.uns["spatial"][library_id]["images"]["fulres"] = img
     else:
         scale = adata.uns["spatial"][library_id]["scalefactors"][
             "tissue_" + quality + "_scalef"
@@ -111,6 +119,7 @@ def ReadOldST(
     library_id: str = "OldST",
     scale: float = 1.0,
     quality: str = "hires",
+    spot_diameter_fullres: float = 50,
 ) -> AnnData:
 
     """\
@@ -130,18 +139,24 @@ def ReadOldST(
         Set scale factor.
     quality
         Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
+    spot_diameter_fullres
+        Diameter of spot in full resolution
+
     Returns
     -------
     AnnData
     """
 
-    adata = stlearn.read.file_table(count_matrix_file)
+    adata = scanpy.read_text(count_matrix_file)
     adata = stlearn.add.parsing(adata, coordinates_file=spatial_file)
     stlearn.add.image(
-        adata, library_id=library_id, quality=quality, imgpath=image_file, scale=scale
+        adata,
+        library_id=library_id,
+        quality=quality,
+        imgpath=image_file,
+        scale=scale,
+        spot_diameter_fullres=spot_diameter_fullres,
     )
-
-    adata.obs["sum_counts"] = np.array(adata.X.sum(axis=1))
 
     return adata
 
@@ -150,8 +165,10 @@ def ReadSlideSeq(
     count_matrix_file: Union[str, Path],
     spatial_file: Union[str, Path],
     library_id: str = None,
-    scale: float = 1.0,
+    scale: float = None,
     quality: str = "hires",
+    spot_diameter_fullres: float = 50,
+    background_color: _background = "white",
 ) -> AnnData:
 
     """\
@@ -169,6 +186,11 @@ def ReadSlideSeq(
         Set scale factor.
     quality
         Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
+    spot_diameter_fullres
+        Diameter of spot in full resolution
+    background_color
+        Color of the backgound. Only `black` or `white` is allowed.
+
     Returns
     -------
     AnnData
@@ -183,6 +205,10 @@ def ReadSlideSeq(
 
     adata.obs["index"] = meta["index"].values
 
+    if scale == None:
+        max_coor = np.max(meta[["x", "y"]].values)
+        scale = 2000 / max_coor
+
     adata.obs["imagecol"] = meta["x"].values * scale
     adata.obs["imagerow"] = meta["y"].values * scale
 
@@ -190,7 +216,10 @@ def ReadSlideSeq(
     max_size = np.max([adata.obs["imagecol"].max(), adata.obs["imagerow"].max()])
     max_size = int(max_size + 0.1 * max_size)
 
-    image = Image.new("RGB", (max_size, max_size), (0, 0, 0))
+    if background_color == "black":
+        image = Image.new("RGBA", (max_size, max_size), (0, 0, 0, 0))
+    else:
+        image = Image.new("RGBA", (max_size, max_size), (255, 255, 255, 255))
     imgarr = np.array(image)
 
     if library_id is None:
@@ -206,10 +235,10 @@ def ReadSlideSeq(
         "tissue_" + quality + "_scalef"
     ] = scale
 
-    adata.uns["spatial"][library_id]["scalefactors"]["spot_diameter_fullres"] = 50
+    adata.uns["spatial"][library_id]["scalefactors"][
+        "spot_diameter_fullres"
+    ] = spot_diameter_fullres
     adata.obsm["spatial"] = meta[["x", "y"]].values
-
-    adata.obs["sum_counts"] = np.array(adata.X.sum(axis=1))
 
     return adata
 
@@ -218,8 +247,10 @@ def ReadMERFISH(
     count_matrix_file: Union[str, Path],
     spatial_file: Union[str, Path],
     library_id: str = None,
-    scale: float = 1,
+    scale: float = None,
     quality: str = "hires",
+    spot_diameter_fullres: float = 50,
+    background_color: _background = "white",
 ) -> AnnData:
 
     """\
@@ -237,6 +268,11 @@ def ReadMERFISH(
         Set scale factor.
     quality
         Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
+    spot_diameter_fullres
+        Diameter of spot in full resolution
+    background_color
+        Color of the backgound. Only `black` or `white` is allowed.
+
     Returns
     -------
     AnnData
@@ -251,15 +287,23 @@ def ReadMERFISH(
 
     adata_merfish = counts[coordinates.index, :]
     adata_merfish.obsm["spatial"] = coordinates.to_numpy()
-    adata_merfish.obs["imagecol"] = adata_merfish.obsm["spatial"][:, 0]
-    adata_merfish.obs["imagerow"] = adata_merfish.obsm["spatial"][:, 1]
+
+    if scale == None:
+        max_coor = np.max(adata_merfish.obsm["spatial"])
+        scale = 2000 / max_coor
+
+    adata_merfish.obs["imagecol"] = adata_merfish.obsm["spatial"][:, 0] * scale
+    adata_merfish.obs["imagerow"] = adata_merfish.obsm["spatial"][:, 1] * scale
 
     # Create image
     max_size = np.max(
         [adata_merfish.obs["imagecol"].max(), adata_merfish.obs["imagerow"].max()]
     )
     max_size = int(max_size + 0.1 * max_size)
-    image = Image.new("RGB", (max_size, max_size), (255, 255, 255))
+    if background_color == "black":
+        image = Image.new("RGB", (max_size, max_size), (0, 0, 0, 0))
+    else:
+        image = Image.new("RGB", (max_size, max_size), (255, 255, 255, 255))
     imgarr = np.array(image)
 
     if library_id is None:
@@ -274,11 +318,9 @@ def ReadMERFISH(
     adata_merfish.uns["spatial"][library_id]["scalefactors"][
         "tissue_" + quality + "_scalef"
     ] = scale
-    adata.uns["spatial"][library_id]["scalefactors"]["spot_diameter_fullres"] = 50
-    adata_merfish.obs["imagecol"] = adata_merfish.obsm["spatial"][:, 0] * scale
-    adata_merfish.obs["imagerow"] = adata_merfish.obsm["spatial"][:, 1] * scale
-
-    adata_merfish.obs["sum_counts"] = np.array(adata_merfish.X.sum(axis=1))
+    adata_merfish.uns["spatial"][library_id]["scalefactors"][
+        "spot_diameter_fullres"
+    ] = spot_diameter_fullres
 
     return adata_merfish
 
@@ -290,6 +332,8 @@ def ReadSeqFish(
     scale: float = 1.0,
     quality: str = "hires",
     field: int = 0,
+    spot_diameter_fullres: float = 50,
+    background_color: _background = "white",
 ) -> AnnData:
 
     """\
@@ -309,6 +353,10 @@ def ReadSeqFish(
         Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
     field
         Set field of view for SeqFish data
+    spot_diameter_fullres
+        Diameter of spot in full resolution
+    background_color
+        Color of the backgound. Only `black` or `white` is allowed.
     Returns
     -------
     AnnData
@@ -326,14 +374,23 @@ def ReadSeqFish(
 
     adata = AnnData(count)
 
+    if scale == None:
+        max_coor = np.max(spatial[["X", "Y"]])
+        scale = 2000 / max_coor
+
     adata.obs["imagecol"] = spatial["X"].values * scale
     adata.obs["imagerow"] = spatial["Y"].values * scale
+
+    adata.obsm["spatial"] = spatial[["X", "Y"]].values
 
     # Create image
     max_size = np.max([adata.obs["imagecol"].max(), adata.obs["imagerow"].max()])
     max_size = int(max_size + 0.1 * max_size)
 
-    image = Image.new("RGB", (max_size, max_size), (255, 255, 255))
+    if background_color == "black":
+        image = Image.new("RGBA", (max_size, max_size), (0, 0, 0, 0))
+    else:
+        image = Image.new("RGBA", (max_size, max_size), (255, 255, 255, 255))
     imgarr = np.array(image)
 
     if library_id is None:
@@ -348,9 +405,88 @@ def ReadSeqFish(
     adata.uns["spatial"][library_id]["scalefactors"][
         "tissue_" + quality + "_scalef"
     ] = scale
-    adata.uns["spatial"][library_id]["scalefactors"]["spot_diameter_fullres"] = 50
-    adata.obsm["spatial"] = spatial[["X", "Y"]].values
+    adata.uns["spatial"][library_id]["scalefactors"][
+        "spot_diameter_fullres"
+    ] = spot_diameter_fullres
 
-    adata.obs["sum_counts"] = np.array(adata.X.sum(axis=1))
+    return adata
+
+
+def create_stlearn(
+    count: pd.DataFrame,
+    spatial: pd.DataFrame,
+    library_id: str,
+    image_path: Optional[Path] = None,
+    scale: float = None,
+    quality: str = "hires",
+    spot_diameter_fullres: float = 50,
+    background_color: _background = "white",
+):
+    """\
+    Create AnnData object for stLearn
+
+    Parameters
+    ----------
+    count
+        Pandas Dataframe of count matrix with rows as barcodes and columns as gene names
+    spatial
+        Pandas Dataframe of spatial location of cells/spots.
+    library_id
+        Identifier for the visium library. Can be modified when concatenating multiple adata objects.
+    scale
+        Set scale factor.
+    quality
+        Set quality that convert to stlearn to use. Store in anndata.obs['imagecol' & 'imagerow']
+    spot_diameter_fullres
+        Diameter of spot in full resolution
+    background_color
+        Color of the backgound. Only `black` or `white` is allowed.
+    Returns
+    -------
+    AnnData
+    """
+    adata = AnnData(X=count)
+
+    adata.obsm["spatial"] = spatial.values
+
+    if scale == None:
+        max_coor = np.max(adata.obsm["spatial"])
+        scale = 2000 / max_coor
+
+    adata.obs["imagecol"] = spatial["imagecol"].values * scale
+    adata.obs["imagerow"] = spatial["imagerow"].values * scale
+
+    if image_path != None:
+        stlearn.add.image(
+            adata,
+            library_id=library_id,
+            quality=quality,
+            imgpath=image_path,
+            scale=scale,
+        )
+    else:
+        # Create image
+        max_size = np.max([adata.obs["imagecol"].max(), adata.obs["imagerow"].max()])
+        max_size = int(max_size + 0.1 * max_size)
+
+        if background_color == "black":
+            image = Image.new("RGBA", (max_size, max_size), (0, 0, 0, 0))
+        else:
+            image = Image.new("RGBA", (max_size, max_size), (255, 255, 255, 255))
+        imgarr = np.array(image)
+
+        # Create spatial dictionary
+        adata.uns["spatial"] = {}
+        adata.uns["spatial"][library_id] = {}
+        adata.uns["spatial"][library_id]["images"] = {}
+        adata.uns["spatial"][library_id]["images"][quality] = imgarr
+        adata.uns["spatial"][library_id]["use_quality"] = quality
+        adata.uns["spatial"][library_id]["scalefactors"] = {}
+        adata.uns["spatial"][library_id]["scalefactors"][
+            "tissue_" + quality + "_scalef"
+        ] = scale
+        adata.uns["spatial"][library_id]["scalefactors"][
+            "spot_diameter_fullres"
+        ] = spot_diameter_fullres
 
     return adata
