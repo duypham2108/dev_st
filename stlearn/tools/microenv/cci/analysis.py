@@ -26,11 +26,8 @@ def load_lrs(names: Union[str, list, None] = None, species: str = "human") -> np
     """Loads inputted LR database, & concatenates into consistent database set of pairs without duplicates. If None loads 'connectomeDB2020_lit'.
     Parameters
     ----------
-    names: list   Databases to load, options: \
-                'connectomeDB2020_lit' (literature verified), 'connectomeDB2020_put' (putative). \
-                If more than one specified, loads all & removes duplicates.
+    names: list     Databases to load, options: 'connectomeDB2020_lit' (literature verified), 'connectomeDB2020_put' (putative). If more than one specified, loads all & removes duplicates.
     species: str    Format of the LR genes, either 'human' or 'mouse'.
-
     Returns
     -------
     lrs: np.array   lr pairs from the database in format ['L1_R1', 'LN_RN']
@@ -189,8 +186,7 @@ def run(
     n_cpus: int = None,
     verbose: bool = True,
 ):
-    """Wrapper function for performing CCI analysis, varrying the analysis based
-        on the inputted data / state of the anndata object.
+    """Wrapper function for performing CCI analysis, varrying the analysis based on the inputted data / state of the anndata object.
     Parameters
     ----------
     adata: AnnData          The data object including the cell types to count.

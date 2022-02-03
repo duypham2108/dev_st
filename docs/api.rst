@@ -146,6 +146,7 @@ Tools: `tl`
    :toctree: .
 
    tl.cci.load_lrs
+   tl.cci.grid
    tl.cci.run
    tl.cci.adj_pvals
    tl.cci.run_lr_go
