@@ -256,6 +256,15 @@ def run(
     if type(n_cpus) != type(None):
         numba.set_num_threads(n_cpus)
 
+    # Making sure none of the var_names contains '_' already, these will need
+    # to be renamed.
+    prob_genes = [gene for gene in adata.var_names if '_' in gene]
+    if len(prob_genes)>0:
+        raise Exception("Detected '_' within some gene names, which breaks " +\
+                    "internal string handling for the lrs in format 'L_R'.\n"+\
+                    "Recommend to rename adata.var_names or remove these "+\
+                        f"genes from adata:\n {prob_genes}")
+
     # Calculating neighbour & storing #
     distance = calc_distance(adata, distance)
     neighbours = calc_neighbours(adata, distance, verbose=verbose)
@@ -296,7 +305,9 @@ def run(
         count(adata, distance=distance, use_label=use_label, use_het=use_label)
 
     het_vals = (
-        np.array([1] * len(adata)) if use_label not in adata.obsm else adata.obsm[use_label]
+        np.array([1] * len(adata))
+        if use_label not in adata.obsm
+        else adata.obsm[use_label]
     )
 
     """ 1. Filter any LRs without stored expression.
@@ -501,8 +512,7 @@ def run_cci(
     n_perms=100,
     verbose: bool = True,
 ):
-    """Calls significant celltype-celltype interactions based on cell-type data
-        randomisation.
+    """Calls significant celltype-celltype interactions based on cell-type data randomisation.
 
     Parameters
     ----------
@@ -521,7 +531,7 @@ def run_cci(
         include in subsequent analysis.
     sig_spots: bool
         If true, only consider edges which include a signficant spot from
-        calling st.tl.run()
+        calling st.tl.cci.run()
     cell_prop_cutoff: float
         Only relevant if spot_mixtures==True, indicates cutoff where cell type
         considered found in spot.
@@ -622,6 +632,10 @@ def run_cci(
     best_lr_indices = np.where(lr_summary.values[:, col_i] > min_spots)[0]
     best_lrs = lr_summary.index.values[best_lr_indices]
     lr_genes = np.unique([lr.split("_") for lr in best_lrs])
+    if len(lr_genes)==0:
+        raise Exception("No LR pairs returned with current filtering params; \n"
+                        "may need to adjust min_spots, sig_spots parameters, "
+                        "or re-run st.tl.cci.run with more relaxed parameters.")
     lr_expr = adata[:, lr_genes].to_df()
 
     # Sig-CCIs across all LRs #
